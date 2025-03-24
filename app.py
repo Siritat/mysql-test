@@ -2,26 +2,23 @@ import streamlit as st
 import mysql.connector
 from mysql.connector import Error
 
-st.title("🔌 ทดสอบเชื่อมต่อ MySQL พร้อมระบุพอร์ต")
+st.title("🔌 ทดสอบเชื่อมต่อ MySQL (ระบุพอร์ต)")
 
-# ส่วนนี้สามารถใช้กับ Streamlit Cloud ที่มี secrets หรือกรอกตรงก็ได้
 try:
-    # หากคุณใช้ secrets.toml
-    config = st.secrets["mysql"]
+    config = st.secrets["mysql"]  # โหลดจาก secrets.toml
 
     conn = mysql.connector.connect(
         host=config["host"],
         user=config["user"],
         password=config["password"],
         database=config["database"],
-        port=config.get("port", 25060)  # หากไม่ระบุ port จะใช้ 3306 เป็นค่า default
+        port=config.get("port", 25060)  # ใช้ port 25060 จาก config
     )
 
-    st.success("✅ เชื่อมต่อฐานข้อมูล MySQL สำเร็จ!")
+    st.success("✅ เชื่อมต่อสำเร็จ!")
     cursor = conn.cursor()
     cursor.execute("SHOW TABLES;")
     tables = cursor.fetchall()
-    st.write("📋 ตารางทั้งหมดในฐานข้อมูล:")
     for t in tables:
         st.write(f"- {t[0]}")
     conn.close()
