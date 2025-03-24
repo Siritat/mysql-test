@@ -9,7 +9,8 @@ try:
         host=st.secrets["mysql"]["host"],
         user=st.secrets["mysql"]["user"],
         password=st.secrets["mysql"]["password"],
-        database=st.secrets["mysql"]["database"]
+        database=st.secrets["mysql"]["database"],
+        port=st.secrets["mysql"]["port"]
     )
     st.success("✅ เชื่อมต่อฐานข้อมูล MySQL ได้แล้ว!")
     cursor = conn.cursor()
