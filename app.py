@@ -2,25 +2,27 @@ import streamlit as st
 import mysql.connector
 from mysql.connector import Error
 
-st.title("🔌 ทดสอบเชื่อมต่อ MySQL (ระบุพอร์ต)")
+st.title("🔌 ทดสอบเชื่อมต่อ MySQL แบบใส่ข้อมูลตรง")
 
 try:
-    config = st.secrets["mysql"]  # โหลดจาก secrets.toml
-
     conn = mysql.connector.connect(
-        host=config["host"],
-        user=config["user"],
-        password=config["password"],
-        database=config["database"],
-        port=config.get("port", 25060)  # ใช้ port 25060 จาก config
+        host="203.154.140.154",
+        user="saoiechat",
+        password="4au164T&z",
+        database="oiechatbot",
+        port=25060  # สำคัญ! ระบุพอร์ตให้ตรง
     )
 
-    st.success("✅ เชื่อมต่อสำเร็จ!")
+    st.success("✅ เชื่อมต่อ MySQL สำเร็จแล้ว!")
+    
     cursor = conn.cursor()
     cursor.execute("SHOW TABLES;")
     tables = cursor.fetchall()
-    for t in tables:
-        st.write(f"- {t[0]}")
+    
+    st.write("📋 ตารางทั้งหมดในฐานข้อมูล:")
+    for table in tables:
+        st.write(f"- {table[0]}")
+    
     conn.close()
 
 except Error as e:
